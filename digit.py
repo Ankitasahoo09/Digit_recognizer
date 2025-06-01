@@ -1,34 +1,24 @@
+# digit_recognizer.py
+
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-import matplotlib.pyplot as plt
+import joblib
 
-# Load dataset
-digits = datasets.load_digits()
+def train_and_save_model():
+    digits = datasets.load_digits()
+    X = digits.data
+    y = digits.target
 
-# Show one sample digit
-plt.gray()
-plt.matshow(digits.images[0])
-plt.title(f"Label: {digits.target[0]}")
-plt.show()
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Prepare data
-X = digits.data  # flatten 8x8 image to 64 features
-y = digits.target
+    model = LogisticRegression(max_iter=1000)
+    model.fit(X_train, y_train)
 
-# Split into train and test
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    print(f"Accuracy: {model.score(X_test, y_test):.2f}")
 
-# Train model
-model = LogisticRegression(max_iter=1000)
-model.fit(X_train, y_train)
+    # Save model
+    joblib.dump(model, "digit_model.pkl")
 
-# Predict and test accuracy
-accuracy = model.score(X_test, y_test)
-print(f"Test Accuracy: {accuracy:.2f}")
-
-# Predict a single digit
-index = 10
-plt.matshow(digits.images[index])
-plt.title(f"Actual: {digits.target[index]} | Predicted: {model.predict([digits.data[index]])[0]}")
-plt.show()
+if __name__ == "__main__":
+    train_and_save_model()
