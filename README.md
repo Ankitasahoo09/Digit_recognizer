@@ -12,11 +12,7 @@ It uses:
 
 ---
 
-## 🚀 Demo Preview
-
-https://github.com/your-username/digit-recognizer/assets/your-gif-or-screenshot-link *(Optional)*
-
----
+\
 
 ## 📦 Dependencies
 
